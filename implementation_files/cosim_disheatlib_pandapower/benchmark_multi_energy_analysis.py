@@ -8,7 +8,7 @@ import pandas as pd
 
 START_TIME = '2019-02-01 00:00:00'
 
-DROP_FIRST_DAY_DATA = True
+DROP_FIRST_DAYS_DATA = True
 
 PLOT_DICT = {
     'tank temperatures': [
@@ -117,7 +117,7 @@ def get_sim_node_name(
 def retrieve_results(
     store_name,
     start_time,
-    drop_first_day_data = True
+    drop_first_days_data = True
 ):
     results_dict = {}
     results_store = pd.HDFStore(store_name)
@@ -131,9 +131,9 @@ def retrieve_results(
             # Convert index to time format.
             data.index = pd.to_datetime(data.index, unit = 's', origin = start_time)
 
-            if drop_first_day_data:
-                first_day_data = data.first('1D')
-                results_dict[res_name] = data.drop(first_day_data.index)
+            if drop_first_days_data:
+                first_days_data = data.first('2D')
+                results_dict[res_name] = data.drop(first_days_data.index)
             else:
                 results_dict[res_name] = data
 
@@ -219,13 +219,13 @@ if __name__ == '__main__':
     # Retrieve results for simulation with voltage control enabled.
     dict_results_ctrl_enabled = retrieve_results(
         'benchmark_results_ctrl_enabled.h5',
-        START_TIME, DROP_FIRST_DAY_DATA
+        START_TIME, DROP_FIRST_DAYS_DATA
         )
 
     # Retrieve results for simulation with voltage control disabled.
     dict_results_ctrl_disabled = retrieve_results(
         'benchmark_results_ctrl_disabled.h5',
-        START_TIME, DROP_FIRST_DAY_DATA
+        START_TIME, DROP_FIRST_DAYS_DATA
         )
 
     # Plot results for simulation with voltage control enabled.
