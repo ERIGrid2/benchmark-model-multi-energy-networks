@@ -2,10 +2,10 @@
 
 This repository contains the documentation for the multi-energy networks benchmark model developed in the ERIGrid 2.0 project. 
 
-The folder [```Implementation-Files```](./Implementation-Files) includes two implementations of the benchmark in separate sub-folders. 
+The folder [```implementation_files```](./implementation_files) includes two implementations of the benchmark in separate sub-folders. 
 
-The folder [```PreCISE-Documentation```](./PreCISE-Documentation) contains the description of the model according to the PreCISE framework. 
-The different subfolders are indexed according to the PreCISE template and the file [```PreCISE_ToC.pdf```](./PreCISE-Documentation/PreCISE_ToC.pdf) provides a brief description of each file. 
+The folder [```PreCISE_documentation```](./PreCISE_documentation) contains the description of the model according to the PreCISE framework. 
+The different subfolders are indexed according to the PreCISE template and the file [```PreCISE_ToC.pdf```](./PreCISE_documentation/PreCISE_ToC.pdf) provides a brief description of each file. 
 
 ### Funding acknowledgement
 
