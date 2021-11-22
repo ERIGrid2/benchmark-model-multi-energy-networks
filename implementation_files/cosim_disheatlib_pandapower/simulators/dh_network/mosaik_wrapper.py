@@ -66,18 +66,17 @@ class DHNetworkSimulator(FmuAdapter):
 
         if 'linux' in sys.platform:
             self.copy_data_files_to_current_work_dir()
-            raise Exception('breakpoint')
 
         return meta
 
 
     def copy_data_files_to_current_work_dir(self):
-    '''
-    The FMU for platform 'linux64' has been generated with Dymola version 2019 FD01.
-    The generated FMUs fail to load data files from the resources folder.
-    As a workaround, the data files have to copied to the current working directory by hand.
-    '''
+        '''
+        The FMU for platform 'linux64' has been generated with Dymola version 2019 FD01.
+        The generated FMUs fail to load data files from the resources folder.
+        As a workaround, the data files have to copied to the current working directory by hand.
+        '''
         import os, shutil, glob
-        data_files_wildcard = pathlib.Path(self.work_dir, self.fmu_name, 'resources', '*')
+        data_files_wildcard = pathlib.Path(os.getcwd(), 'resources', 'heat', 'data', 'heat_demand*')
         for file in glob.glob(str(data_files_wildcard)):
             shutil.copy(file, os.getcwd())
