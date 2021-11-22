@@ -5,7 +5,7 @@ This repository contains the documentation for the multi-energy networks benchma
 The folder [```implementation_files```](./implementation_files) includes two implementations of the benchmark in separate sub-folders. 
 
 The folder [```PreCISE_documentation```](./PreCISE_documentation) contains the description of the model according to the PreCISE framework. 
-The different subfolders are indexed according to the PreCISE template and the file [```PreCISE_ToC.pdf```](./PreCISE_documentation/PreCISE_ToC.pdf) provides a brief description of each file. 
+File [```PreCISE_documentation/MENB_ToC.pdf```](./PreCISE_documentation/MENB_ToC.pdf) provides a brief description of each file. 
 
 ### Funding acknowledgement
 
