@@ -1,6 +1,6 @@
 # Benchmark Model Multi-Energy Networks
 
-This repository contains the documentation for the multi-energy networks benchmark model developed in the ERIGrid 2.0 project. 
+This repository contains the documentation and reference implementations of the multi-energy networks benchmark model developed in the [ERIGrid 2.0] project. 
 
 The folder [```implementation_files```](./implementation_files) includes two implementations of the benchmark in separate sub-folders. 
 
