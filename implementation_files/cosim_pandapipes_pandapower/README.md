@@ -1,6 +1,6 @@
 # Co-simulation model of the multi-energy network benchmark using pandapipes and pandapower
 
-This implementation of the multi-energy newtork benchmark uses [mosaik](https://mosaik.offis.de/) for a co-simulation of [pandapipes](https://pandapipes.readthedocs.io/), [pandapower](https://pandapower.readthedocs.io/) and several stand-alone component models.
+This implementation of the multi-energy newtork benchmark uses [mosaik](https://mosaik.offis.de/) for a co-simulation of [pandapipes](https://pandapipes.readthedocs.io/), [pandapower](https://pandapower.readthedocs.io/), several stand-alone models and the controllers.
 
 ## Requirements
 
@@ -28,7 +28,7 @@ Run a benchmark simulation with **voltage control disabled** with the following 
 
 A few comments about running the simulations:
 
-* On a tpyical laptop each simulation takes about 15 minutes to complete.
+* On a tpyical laptop each simulation takes several minutes to complete.
 * You can speed-up the simulation by using a bigger simulation step size or shorter simulation period.
   For more details refer to the usage instructions:
   ```

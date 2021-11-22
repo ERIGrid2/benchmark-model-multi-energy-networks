@@ -1,6 +1,6 @@
 # Co-simulation model of the multi-energy network benchmark using DisHeatLib and pandapower
 
-This implementation of the multi-energy newtork benchmark uses [mosaik](https://mosaik.offis.de/) for a co-simulation of a [DisHeatLib](https://github.com/AIT-IES/DisHeatLib) model, [pandapower](https://pandapower.readthedocs.io/) and several stand-alone component models.
+This implementation of the multi-energy newtork benchmark uses [mosaik](https://mosaik.offis.de/) for a co-simulation of a [DisHeatLib](https://github.com/AIT-IES/DisHeatLib) model, [pandapower](https://pandapower.readthedocs.io/) and the controllers.
 
 ## Requirements
 
@@ -43,7 +43,7 @@ Run a benchmark simulation with **voltage control disabled** with the following 
 
 A few comments about running the simulations:
 
-* On a tpyical laptop each simulation takes about 5-6 minutes to complete.
+* On a tpyical laptop each simulation takes several minutes to complete.
 * You can speed-up the simulation by using a bigger simulation step size or shorter simulation period.
   For more details refer to the usage instructions:
   ```
