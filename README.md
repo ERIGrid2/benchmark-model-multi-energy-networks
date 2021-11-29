@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5735005.svg)](https://doi.org/10.5281/zenodo.5735005)
+
 # Benchmark Model Multi-Energy Networks
 
 This repository contains the documentation and reference implementations of the multi-energy networks benchmark model developed in the [ERIGrid 2.0] project. 
