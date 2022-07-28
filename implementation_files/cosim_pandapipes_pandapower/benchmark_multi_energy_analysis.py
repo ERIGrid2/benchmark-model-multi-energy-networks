@@ -14,39 +14,34 @@ PLOT_DICT = {
     'tank temperatures': [
         'temperature in °C',
         [
-            'StratifiedWaterStorageTank_0.T_cold',
-            'StratifiedWaterStorageTank_0.T_hot',
-            'StratifiedWaterStorageTank_0.T_avg',
-            # 'StratifiedWaterStorageTank_0.T_ch_in',
-            # 'StratifiedWaterStorageTank_0.T_dis_in',
+            'DHNetwork_0.T_tank_low_degC',
+            'DHNetwork_0.T_tank_high_degC',
+            'DHNetwork_0.thermalNetwork_powerToHeat_T_tank_mean_degC',
         ]
     ],
-    # 'tank mass flow': [
-        # 'mass flow in kg/m^3',
-        # [
-            # 'StratifiedWaterStorageTank_0.mdot_ch_in',
-            # 'StratifiedWaterStorageTank_0.mdot_dis_in',
-            # 'StratifiedWaterStorageTank_0.mdot_ch_out',
-            # 'StratifiedWaterStorageTank_0.mdot_dis_out',
-        # ]
-    # ],
-    # 'heatpump': [
-        # 'power in kW',
-        # [
-            # 'heatpump_0.P_effective',
-            # 'heatpump_0.P_requested',
-        # ]
-    # ],
+    'tank mass flow': [
+        'mass flow in kg/s',
+        [
+            'FHctrl_0.mdot_tank_out',
+        ]
+    ],
+    'heatpump pid': [
+        'power in W',
+        [
+            'DHNetwork_0.PID_controller_u_s',
+            'DHNetwork_0.PID_controller_u_m',
+        ]
+    ],
+    'heatpump ctrl': [
+        'power in kW',
+        [
+            'FHctrl_0.P_hp_el'
+        ]
+    ],
     'flex heat controller state': [
         'state',
         [
             'FHctrl_0.state',
-        ]
-    ],
-    'flex heat controller HP mdot out': [
-        'HP mdot out',
-        [
-            'FHctrl_0.mdot_HP_out',
         ]
     ],
     'voltage controller': [
@@ -60,7 +55,6 @@ PLOT_DICT = {
         [
             'Load_1_0.p_mw',
             'Load_2_0.p_mw',
-            'Heat Pump_0.p_mw',
         ]
     ],
     'PV generation': [
@@ -103,7 +97,7 @@ BINS_TANK_TEMPERATURE_MAX = [
 ]
 
 BINS_HP_POWER_CONSUMPTION = [
-    round(i*5, 2) for i in range(22)
+    round(i*5000, 2) for i in range(22)
 ]
 
 SHOW_PLOTS = False
@@ -180,8 +174,10 @@ def plot_results_compare(
     sorted_attr_type2 = attr_type2.sort_values(ascending = False, ignore_index = True)
 
     fig, axes_attr_compare = plt.subplots(figsize = FIG_SIZE)
-    axes_attr_compare.plot(attr_type1, label = '{} {}'.format(entity, label_type1))
-    axes_attr_compare.plot(attr_type2, label = '{} {}'.format(entity, label_type2))
+    # axes_attr_compare.plot(attr_type1, label = '{} {}'.format(entity, label_type1))
+    # axes_attr_compare.plot(attr_type2, label = '{} {}'.format(entity, label_type2))
+    axes_attr_compare.plot(attr_type1, label = label_type1)
+    axes_attr_compare.plot(attr_type2, label = label_type2)
     axes_attr_compare.legend(loc = 'upper right')
     axes_attr_compare.set_xlabel('date')
     axes_attr_compare.set_ylabel(label)
@@ -192,8 +188,10 @@ def plot_results_compare(
     plt.close()
 
     fig, axes_sorted_attr_compare = plt.subplots(figsize = FIG_SIZE)
-    axes_sorted_attr_compare.plot(sorted_attr_type1, label = '{} {}'.format(entity, label_type1))
-    axes_sorted_attr_compare.plot(sorted_attr_type2, label = '{} {}'.format(entity, label_type2))
+    # axes_sorted_attr_compare.plot(sorted_attr_type1, label = '{} {}'.format(entity, label_type1))
+    # axes_sorted_attr_compare.plot(sorted_attr_type2, label = '{} {}'.format(entity, label_type2))
+    axes_sorted_attr_compare.plot(sorted_attr_type1, label = label_type1)
+    axes_sorted_attr_compare.plot(sorted_attr_type2, label = label_type2)
     axes_sorted_attr_compare.legend(loc = 'upper right')
     axes_sorted_attr_compare.set_ylabel(label)
     axes_sorted_attr_compare.set_title('duration plot of {}'.format(attr))
@@ -203,8 +201,10 @@ def plot_results_compare(
     plt.close()
 
     df_sorted_attr_compare = pd.DataFrame()
-    df_sorted_attr_compare['{} {}'.format(entity, label_type1)] = sorted_attr_type1
-    df_sorted_attr_compare['{} {}'.format(entity, label_type2)] = sorted_attr_type2
+    # df_sorted_attr_compare['{} {}'.format(entity, label_type1)] = sorted_attr_type1
+    # df_sorted_attr_compare['{} {}'.format(entity, label_type2)] = sorted_attr_type2
+    df_sorted_attr_compare[label_type1] = sorted_attr_type1
+    df_sorted_attr_compare[label_type2] = sorted_attr_type2
     axes_sorted_attr_compare_hist = df_sorted_attr_compare.plot.hist(bins=bins, alpha=0.5, figsize = FIG_SIZE)
     axes_sorted_attr_compare_hist.set_xlabel(label)
     plt.savefig('fig_hist_{}.{}'.format(fig_id,fig_type))
@@ -215,83 +215,89 @@ def plot_results_compare(
     return (attr_type1.sum(), attr_type2.sum())
 
 
-if __name__ == '__main__':
+def compare_sim_results(sim_results_file1, sim_results_file2, show_plots = True):
     # Retrieve results for simulation with voltage control enabled.
     dict_results_ctrl_enabled = retrieve_results(
-        'benchmark_results_ctrl_enabled.h5',
-        START_TIME, DROP_FIRST_DAYS_DATA
+        sim_results_file1, START_TIME, DROP_FIRST_DAYS_DATA
         )
 
     # Retrieve results for simulation with voltage control disabled.
     dict_results_ctrl_disabled = retrieve_results(
-        'benchmark_results_ctrl_disabled.h5',
-        START_TIME, DROP_FIRST_DAYS_DATA
+        sim_results_file2, START_TIME, DROP_FIRST_DAYS_DATA
         )
 
     # Plot results for simulation with voltage control enabled.
     plot_results_single_run(
         dict_results_ctrl_enabled, PLOT_DICT,
-        'ts_ctrl_enabled', SHOW_PLOTS, FIG_TYPE
+        'ts_ctrl_enabled', show_plots, FIG_TYPE
         )
 
-    # Plot results for simulation with voltage control enabled.
+    # Plot results for simulation with voltage control disabled.
     plot_results_single_run(
         dict_results_ctrl_disabled, PLOT_DICT,
-        'ts_ctrl_disabled', SHOW_PLOTS, FIG_TYPE
+        'ts_ctrl_disabled', show_plots, FIG_TYPE
         )
 
     # Compare voltage levels for bus 1.
     plot_results_compare(
         'Bus_1_0', 'vm_pu', 'voltage in p.u.',
-        'ctrl disabled', dict_results_ctrl_disabled,
         'ctrl enabled', dict_results_ctrl_enabled,
-        'voltage_levels_bus1', BINS_BUS_VOLTAGE, SHOW_PLOTS, FIG_TYPE
+        'ctrl disabled', dict_results_ctrl_disabled,
+        'voltage_levels_bus1', BINS_BUS_VOLTAGE, show_plots, FIG_TYPE
         )
 
     # Compare voltage levels for bus 2.
     plot_results_compare(
         'Bus_2_0', 'vm_pu', 'voltage in p.u.',
-        'ctrl disabled', dict_results_ctrl_disabled,
         'ctrl enabled', dict_results_ctrl_enabled,
-        'voltage_levels_bus2', BINS_BUS_VOLTAGE, SHOW_PLOTS, FIG_TYPE
+        'ctrl disabled', dict_results_ctrl_disabled,
+        'voltage_levels_bus2', BINS_BUS_VOLTAGE, show_plots, FIG_TYPE
         )
 
     # Compare line loadings for line 1.
     plot_results_compare(
         'LV_Line_0-1_0', 'loading_percent', 'line loading in %',
-        'ctrl disabled', dict_results_ctrl_disabled,
         'ctrl enabled', dict_results_ctrl_enabled,
-        'loadings_line1', BINS_LINE_LOADING, SHOW_PLOTS, FIG_TYPE
+        'ctrl disabled', dict_results_ctrl_disabled,
+        'loadings_line1', BINS_LINE_LOADING, show_plots, FIG_TYPE
         )
 
     # Compare line loadings for line 2.
     plot_results_compare(
         'LV_Line_1-2_0', 'loading_percent', 'line loading in %',
-        'ctrl disabled', dict_results_ctrl_disabled,
         'ctrl enabled', dict_results_ctrl_enabled,
-        'loadings_line2', BINS_LINE_LOADING, SHOW_PLOTS, FIG_TYPE
+        'ctrl disabled', dict_results_ctrl_disabled,
+        'loadings_line2', BINS_LINE_LOADING, show_plots, FIG_TYPE
         )
 
     # Average tank temperature.
     plot_results_compare(
-        'StratifiedWaterStorageTank_0', 'T_avg', 'average temperature in °C',
-        'ctrl disabled', dict_results_ctrl_disabled,
+        'DHNetwork_0', 'thermalNetwork_powerToHeat_T_tank_mean_degC', 'average temperature in °C',
         'ctrl enabled', dict_results_ctrl_enabled,
-        'tank_temperature_avg', BINS_TANK_TEMPERATURE_AVG, SHOW_PLOTS, FIG_TYPE
+        'ctrl disabled', dict_results_ctrl_disabled,
+        'tank_temperature_avg', BINS_TANK_TEMPERATURE_AVG, show_plots, FIG_TYPE
         )
 
     # Maximum tank temperature.
     plot_results_compare(
-        'StratifiedWaterStorageTank_0', 'T_hot', 'maximum temperature in °C',
-        'ctrl disabled', dict_results_ctrl_disabled,
+        'DHNetwork_0', 'T_tank_high_degC', 'maximum temperature in °C',
         'ctrl enabled', dict_results_ctrl_enabled,
-        'tank_temperature_max', BINS_TANK_TEMPERATURE_MAX, SHOW_PLOTS, FIG_TYPE
+        'ctrl disabled', dict_results_ctrl_disabled,
+        'tank_temperature_max', BINS_TANK_TEMPERATURE_MAX, show_plots, FIG_TYPE
         )
 
     # Compare power consumption of heat pump.
     plot_results_compare(
-        'heatpump_0', 'P_effective', 'heat generation in kW',
-        'ctrl disabled', dict_results_ctrl_disabled,
+        'DHNetwork_0', 'PID_controller_u_m', 'heat generation in W',
         'ctrl enabled', dict_results_ctrl_enabled,
-        'heat_pump_power', BINS_HP_POWER_CONSUMPTION, SHOW_PLOTS, FIG_TYPE
+        'ctrl disabled', dict_results_ctrl_disabled,
+        'heat_pump_power', BINS_HP_POWER_CONSUMPTION, show_plots, FIG_TYPE
         )
+
+
+if __name__ == '__main__':
+    compare_sim_results(
+        'benchmark_results_ctrl_enabled.h5',
+        'benchmark_results_ctrl_disabled.h5',
+        show_plots = SHOW_PLOTS
+    )

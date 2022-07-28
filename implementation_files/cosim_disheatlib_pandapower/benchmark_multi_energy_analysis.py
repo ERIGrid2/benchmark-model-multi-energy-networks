@@ -215,29 +215,27 @@ def plot_results_compare(
     return (attr_type1.sum(), attr_type2.sum())
 
 
-if __name__ == '__main__':
+def compare_sim_results(sim_results_file1, sim_results_file2, show_plots = True):
     # Retrieve results for simulation with voltage control enabled.
     dict_results_ctrl_enabled = retrieve_results(
-        'benchmark_results_ctrl_enabled.h5',
-        START_TIME, DROP_FIRST_DAYS_DATA
+        sim_results_file1, START_TIME, DROP_FIRST_DAYS_DATA
         )
 
     # Retrieve results for simulation with voltage control disabled.
     dict_results_ctrl_disabled = retrieve_results(
-        'benchmark_results_ctrl_disabled.h5',
-        START_TIME, DROP_FIRST_DAYS_DATA
+        sim_results_file2, START_TIME, DROP_FIRST_DAYS_DATA
         )
 
     # Plot results for simulation with voltage control enabled.
     plot_results_single_run(
         dict_results_ctrl_enabled, PLOT_DICT,
-        'ts_ctrl_enabled', SHOW_PLOTS, FIG_TYPE
+        'ts_ctrl_enabled', show_plots, FIG_TYPE
         )
 
     # Plot results for simulation with voltage control disabled.
     plot_results_single_run(
         dict_results_ctrl_disabled, PLOT_DICT,
-        'ts_ctrl_disabled', SHOW_PLOTS, FIG_TYPE
+        'ts_ctrl_disabled', show_plots, FIG_TYPE
         )
 
     # Compare voltage levels for bus 1.
@@ -245,7 +243,7 @@ if __name__ == '__main__':
         'Bus_1_0', 'vm_pu', 'voltage in p.u.',
         'ctrl enabled', dict_results_ctrl_enabled,
         'ctrl disabled', dict_results_ctrl_disabled,
-        'voltage_levels_bus1', BINS_BUS_VOLTAGE, SHOW_PLOTS, FIG_TYPE
+        'voltage_levels_bus1', BINS_BUS_VOLTAGE, show_plots, FIG_TYPE
         )
 
     # Compare voltage levels for bus 2.
@@ -253,7 +251,7 @@ if __name__ == '__main__':
         'Bus_2_0', 'vm_pu', 'voltage in p.u.',
         'ctrl enabled', dict_results_ctrl_enabled,
         'ctrl disabled', dict_results_ctrl_disabled,
-        'voltage_levels_bus2', BINS_BUS_VOLTAGE, SHOW_PLOTS, FIG_TYPE
+        'voltage_levels_bus2', BINS_BUS_VOLTAGE, show_plots, FIG_TYPE
         )
 
     # Compare line loadings for line 1.
@@ -261,7 +259,7 @@ if __name__ == '__main__':
         'LV_Line_0-1_0', 'loading_percent', 'line loading in %',
         'ctrl enabled', dict_results_ctrl_enabled,
         'ctrl disabled', dict_results_ctrl_disabled,
-        'loadings_line1', BINS_LINE_LOADING, SHOW_PLOTS, FIG_TYPE
+        'loadings_line1', BINS_LINE_LOADING, show_plots, FIG_TYPE
         )
 
     # Compare line loadings for line 2.
@@ -269,7 +267,7 @@ if __name__ == '__main__':
         'LV_Line_1-2_0', 'loading_percent', 'line loading in %',
         'ctrl enabled', dict_results_ctrl_enabled,
         'ctrl disabled', dict_results_ctrl_disabled,
-        'loadings_line2', BINS_LINE_LOADING, SHOW_PLOTS, FIG_TYPE
+        'loadings_line2', BINS_LINE_LOADING, show_plots, FIG_TYPE
         )
 
     # Average tank temperature.
@@ -277,7 +275,7 @@ if __name__ == '__main__':
         'DHNetwork_0', 'thermalNetwork_powerToHeat_T_tank_mean_degC', 'average temperature in °C',
         'ctrl enabled', dict_results_ctrl_enabled,
         'ctrl disabled', dict_results_ctrl_disabled,
-        'tank_temperature_avg', BINS_TANK_TEMPERATURE_AVG, SHOW_PLOTS, FIG_TYPE
+        'tank_temperature_avg', BINS_TANK_TEMPERATURE_AVG, show_plots, FIG_TYPE
         )
 
     # Maximum tank temperature.
@@ -285,7 +283,7 @@ if __name__ == '__main__':
         'DHNetwork_0', 'T_tank_high_degC', 'maximum temperature in °C',
         'ctrl enabled', dict_results_ctrl_enabled,
         'ctrl disabled', dict_results_ctrl_disabled,
-        'tank_temperature_max', BINS_TANK_TEMPERATURE_MAX, SHOW_PLOTS, FIG_TYPE
+        'tank_temperature_max', BINS_TANK_TEMPERATURE_MAX, show_plots, FIG_TYPE
         )
 
     # Compare power consumption of heat pump.
@@ -293,5 +291,13 @@ if __name__ == '__main__':
         'DHNetwork_0', 'PID_controller_u_m', 'heat generation in W',
         'ctrl enabled', dict_results_ctrl_enabled,
         'ctrl disabled', dict_results_ctrl_disabled,
-        'heat_pump_power', BINS_HP_POWER_CONSUMPTION, SHOW_PLOTS, FIG_TYPE
+        'heat_pump_power', BINS_HP_POWER_CONSUMPTION, show_plots, FIG_TYPE
         )
+
+
+if __name__ == '__main__':
+    compare_sim_results(
+        'benchmark_results_ctrl_enabled.h5',
+        'benchmark_results_ctrl_disabled.h5',
+        show_plots = SHOW_PLOTS
+    )
