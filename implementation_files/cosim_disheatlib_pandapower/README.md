@@ -4,8 +4,8 @@ This implementation of the multi-energy newtork benchmark uses [mosaik](https://
 
 ## Requirements
 
-* A working installation of [Python](https://www.python.org/) is required to run this simulation. The recommended version is **Python 3.6**.
-* This benchmark implementation has been tested on **Ubuntu 18.04** and **Windows 10**.
+* A working installation of [Python](https://www.python.org/) is required to run this simulation. The recommended version is **Python 3.8**.
+* This benchmark implementation has been tested on **Ubuntu 20.04** and **Windows 10**.
 
 ## Installation 
 
@@ -16,11 +16,11 @@ Install all required Python packages with the following command:
 > python -m pip install -r requirements-win64.txt
 ```
 
-### Ubuntu 18.04
+### Ubuntu 20.04
 
 Prerequisites for installing the [FMI++ Python Interface](https://pypi.org/project/fmipp/):
 ```
-> sudo apt-get install python-setuptools build-essential swig libsundials-dev libboost-all-dev
+> sudo apt install python3-setuptools build-essential swig libsundials-dev libboost-all-dev
 ```
 
 Install all required Python packages with the following command:

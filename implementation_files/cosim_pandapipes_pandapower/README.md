@@ -4,8 +4,8 @@ This implementation of the multi-energy newtork benchmark uses [mosaik](https://
 
 ## Requirements
 
-* Only a working installation of [Python](https://www.python.org/) is required to run this simulation. The recommended version is **Python 3.6**.
-* This benchmark implementation has been tested on **Ubuntu 18.04** and **Windows 10**.
+* Only a working installation of [Python](https://www.python.org/) is required to run this simulation. The recommended version is **Python 3.8**.
+* This benchmark implementation has been tested on **Ubuntu 20.04** and **Windows 10**.
 
 ## Installation
 
