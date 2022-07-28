@@ -75,11 +75,11 @@ class SimpleFlexHeatController:
         if self.voltage_control_enabled:
             self.set_hp_request()
 
-        if self.state is 1:  # Mode 1: External grid supplies, tank inactive
+        if self.state == 1:  # Mode 1: External grid supplies, tank inactive
             if not self.hp_off_request:
                 self.set_state(new_state=2)  # Mode 2: Charge the tank, external supply
 
-        elif self.state is 2:  # Mode 2: Grid supplies, tank inactive, hp on
+        elif self.state == 2:  # Mode 2: Grid supplies, tank inactive, hp on
             if self.T_tank_hot > self.T_tank_max:  # or self.hp_off_request:
                 if self.hp_on_request:
                     self.set_state(new_state=6)
@@ -88,11 +88,11 @@ class SimpleFlexHeatController:
             if self.hp_off_request:
                 self.set_state(new_state=5)
 
-        elif self.state is 6:  # Mode 6: Grid supplies, tank supports (and holding the temperature)
+        elif self.state == 6:  # Mode 6: Grid supplies, tank supports (and holding the temperature)
             if not self.hp_on_request:
                 self.set_state(new_state=5)
 
-        elif self.state is 5:  # Mode 5: Tank support, hp off
+        elif self.state == 5:  # Mode 5: Tank support, hp off
             if self.T_tank_hot < self.T_tank_min:  # or self.hp_on_request:
                 if self.hp_off_request:
                     self.set_state(new_state=1)
