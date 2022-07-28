@@ -1,0 +1,5 @@
+python3-setuptools
+build-essential
+swig
+libsundials-dev
+libboost-all-dev
