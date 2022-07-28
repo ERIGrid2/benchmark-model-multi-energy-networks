@@ -215,7 +215,11 @@ def plot_results_compare(
     return (attr_type1.sum(), attr_type2.sum())
 
 
-def compare_sim_results(sim_results_file1, sim_results_file2, show_plots = True):
+def compare_sim_results(
+    sim_results_file1, 
+    sim_results_file2, 
+    show_plots = True
+):
     # Retrieve results for simulation with voltage control enabled.
     dict_results_ctrl_enabled = retrieve_results(
         sim_results_file1, START_TIME, DROP_FIRST_DAYS_DATA
