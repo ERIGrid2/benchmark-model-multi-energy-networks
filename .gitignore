@@ -7,3 +7,5 @@ __pycache__/
 
 *_win64/
 *_linux64/
+
+*ipynb_checkpoints
