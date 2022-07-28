@@ -2,6 +2,8 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5735005.svg)](https://doi.org/10.5281/zenodo.5735005)
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ERIGrid2/benchmark-model-multi-energy-networks/binder-dev?labpath=implementation_files%2Fcosim_pandapipes_pandapower%2Fbenchmark_multi_energy_sim.ipynb)
+
 This repository contains the documentation and reference implementations of the multi-energy networks benchmark model developed in the [ERIGrid 2.0] project. 
 
 The folder [```implementation_files```](./implementation_files) includes two implementations of the benchmark in separate sub-folders. 
