@@ -1,5 +1,5 @@
 dataclasses==0.6
-fmipp=1.5.1
+fmipp==1.5.1
 mosaik==2.6.1
 mosaik-api==2.4.2
 numba==0.56.0
