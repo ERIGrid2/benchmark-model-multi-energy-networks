@@ -59,7 +59,7 @@ class FmuAdapter(mosaik_api.Simulator):
     def init(self, sid, work_dir=None, fmu_name=None, model_name=None, instance_name=None, fmi_type=None, step_size=1, logging_on=False,
              step_factor=1.0, fmi_version=None, var_table=None, translation_table=None,
              time_diff_resolution=1e-9, interactive=False, visible=False, stop_time_defined=False, stop_time=10000,
-             integrator='integratorCK', stop_before_event=False, event_search_precision=1e-10):
+             integrator='ck', stop_before_event=False, event_search_precision=1e-10):
 
         if work_dir is None or model_name is None or fmu_name is None or instance_name is None or fmi_type is None:
             raise RuntimeError("FMI Adapter has to be initialized with work_dir, fmu_name, model_name, instance_name, and fmi_type!")
@@ -114,6 +114,7 @@ class FmuAdapter(mosaik_api.Simulator):
         if fmi_version and fmi_version != self.fmi_version:
             raise RuntimeError("User-given FMI version (v{}) does not agree with that from the "
                                    "modelDescriptionn.xml (v{})!".format(fmi_version, self.fmi_version))
+        #TODO: Do we need a version-dependent fmiOK?
 
         self.adjust_var_table()  # Completing var_table and translation_table structure
         self.adjust_meta()  # Writing variable information into mosaik's meta
@@ -142,10 +143,10 @@ class FmuAdapter(mosaik_api.Simulator):
             fmu = f_open_fmu(self.uri_to_extracted_fmu, self.model_name, self.logging_on, *attrs_open)
             self._entities[eid] = fmu
             inst_stat = self._entities[eid].instantiate(self.instance_name, *attrs_inst)
-            assert inst_stat == fmipp.statusOK
+            assert inst_stat == fmipp.fmi2OK
             self.set_values(eid, model_params, 'parameter')
             init_stat = self._entities[eid].initialize(*attrs_init)
-            assert init_stat == fmipp.statusOK
+            assert init_stat == fmipp.fmi2OK
 
             entities.append({'eid': eid, 'type': model, 'rel': []})
 
@@ -157,7 +158,7 @@ class FmuAdapter(mosaik_api.Simulator):
             if inputs is None or inputs == {}:
                 for fmu in self._entities.values():
                     step_stat = fmu.doStep(t * self.step_factor, self.step_size * self.step_factor, True)
-                    assert step_stat == fmipp.statusOK
+                    assert step_stat == fmipp.fmi2OK
 
             else:
                 for eid, attrs in inputs.items():
@@ -166,7 +167,7 @@ class FmuAdapter(mosaik_api.Simulator):
                             self.set_values(eid, {attr: val}, 'input')
 
                     step_stat = self._entities[eid].doStep(t * self.step_factor, self.step_size * self.step_factor, True)
-                    assert step_stat == fmipp.statusOK
+                    assert step_stat == fmipp.fmiOK
 
             return t + self.step_size
 
@@ -233,7 +234,7 @@ class FmuAdapter(mosaik_api.Simulator):
             name = self.translation_table[var_type][alt_name]
             set_func = getattr(self._entities[eid], 'set' + self.var_table[var_type][name] + 'Value')
             set_stat = set_func(name, val)
-            assert set_stat == fmipp.statusOK
+            assert set_stat == fmipp.fmiOK
 
     def get_value(self, eid, alt_attr):
         '''Help function to get values from given variables of an FMU.'''
